@@ -642,7 +642,7 @@ public class PicbreederTask<T extends Network> extends InteractiveEvolutionTask<
 	 * Saves several selected images from picbreeder to disk and then runs the Wave
 	 * Function Collapse code to make a Zentangle mosaic out of the results.
 	 * 
-	 * TODO: Need to clean this code up a bit
+	 * 
 	 */
 	public void zentangle() {
 		ArrayList<T> chosenTiles = getPhenotypes(scores, this.chosen, this.selectedItems);
@@ -670,7 +670,7 @@ public class PicbreederTask<T extends Network> extends InteractiveEvolutionTask<
 			JOptionPane.showMessageDialog(null,
 					"Insufficient number of tiles chosen to zentangle. Select at least two.", "Information",
 					JOptionPane.INFORMATION_MESSAGE);
-		} else {
+		} else { 
 			final int numSelected = chosenTiles.size();
 			runNumber++;
 			String waveFunctionSaveLocation = directory + "/";
@@ -763,10 +763,23 @@ public class PicbreederTask<T extends Network> extends InteractiveEvolutionTask<
 				if (chosenTiles.size() <= MAX_SELECTABLE_BEFORE_MIXING || (i + 1) % standardSize == 0) {
 					// Writes data.xml
 					SimpleTiledZentangleWFCModel.writeAdjacencyRules(directory, tilesToProcess.toArray(new String[tilesToProcess.size()]), tempTileSizeList[zentangleNumber]*tileSize);
+					//all of tempTileSizeList
+					System.out.println("tempTileSizeList[]: " + tempTileSizeList.toString());
+					//zentangleNumber -- what is it? Why's it being used?
+					System.out.println("zentangleNumber: " + zentangleNumber);
+					//tileSize -- what is the parameter thing?
+					System.out.println("tileSize: " + tileSize);
+					System.out.println("tempTileSizeList[zentangleNumber]: " + tempTileSizeList[zentangleNumber]);
+					System.out.println("tempTileSizeList[zentangleNumber]*tileSize: " + tempTileSizeList[zentangleNumber]*tileSize);
+		
 					// data.xml gets read in this next method
 					try {
 						patterns[zentangleNumber] = SimpleTiledZentangle.simpleTiledZentangle(directory, zentangleNumber, Parameters.parameters.integerParameter("zentanglePatternDim") / tempTileSizeList[zentangleNumber]);
+						
+						System.out.println("directory: " + directory + "zentangleNumber: ," + zentangleNumber + "Parameters.parameters.integerParameter(\"zentanglePatternDim\" + )" + Parameters.parameters.integerParameter("zentanglePatternDim") + "tempTileSizeList[zentangleNumber]" + tempTileSizeList[zentangleNumber] + " Put Together: Parameters.parameters.integerParameter(\"zentanglePatternDim\") / tempTileSizeList[zentangleNumber]" + Parameters.parameters.integerParameter("zentanglePatternDim") / tempTileSizeList[zentangleNumber]);
+						
 						patterns[zentangleNumber] = GraphicsUtil.extractCenterOfDoubledRotatedImage(patterns[zentangleNumber], RandomNumbers.randomGenerator.nextDouble() * 360);
+						System.out.println("patterns[zentangleNumber]: " + patterns[zentangleNumber] + ", " + "RandomNumbers.randomGenerator.nextDouble() * 360: " + RandomNumbers.randomGenerator.nextDouble() * 360);
 						zentangleNumber++;
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -820,7 +833,7 @@ public class PicbreederTask<T extends Network> extends InteractiveEvolutionTask<
 					System.out.println("Opening " + outputfile);
 					Desktop.getDesktop().open(outputfile);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					// 
 					e.printStackTrace();
 				}
 			}

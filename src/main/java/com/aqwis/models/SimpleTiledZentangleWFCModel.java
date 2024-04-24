@@ -1,9 +1,11 @@
 package com.aqwis.models;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,10 +31,48 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.aqwis.SimpleTiledZentangle;
+
+import edu.southwestern.parameters.CommonConstants;
 import edu.southwestern.parameters.Parameters;
+import edu.southwestern.util.graphics.GraphicsUtil;
 import edu.southwestern.util.random.RandomNumbers;
 
 public class SimpleTiledZentangleWFCModel extends WFCModel {
+	
+	public static void main(String[] args) throws Exception{
+		// TEST RUN referencing PicbreederTask
+		
+		String directory = "C:\\0\\run1";
+		String[] tileNames = new String[] {"tile0_1", "tile1_1"};//, "tile2_1"};
+//		String[] tileNames = new String[] {"tile0_1", "tile3_1", "tile2_1", "tile3_1"};
+		
+
+		//line 765:
+		//SimpleTiledZentangleWFCModel.writeAdjacencyRules(directory, tilesToProcess.toArray(new String[tilesToProcess.size()]), tempTileSizeList[zentangleNumber]*tileSize);
+
+		SimpleTiledZentangleWFCModel.writeAdjacencyRules(directory, tileNames, 1600*1600);
+		// data.xml gets read in this next method
+		//directory, zentangleNumber, Parameters.parameters.integerParameter("zentanglePatternDim") / tempTileSizeList[zentangleNumber]
+		int patternDim = 16;
+		BufferedImage bufferedImage = SimpleTiledZentangle.simpleTiledZentangle(directory, 1, patternDim );	//something's happenigng in the first 2 lines that causes the tiles to cut off
+		GraphicsUtil.extractCenterOfDoubledRotatedImage(bufferedImage, RandomNumbers.randomGenerator.nextDouble() * 360);
+//		BufferedImage zentangle = GraphicsUtil.zentangleImages(bgImage1, patterns[0], patterns[1]);
+		
+		
+		//C:\Users\a\Documents\GitHub\MM-NEAT\data\mario\img
+		
+		
+//		File outputfile = new File(waveFunctionSaveLocation + "/zentangle.png");
+//		
+//		System.out.println("image was saved successfully");
+//
+//				System.out.println("Opening " + outputfile);
+//				Desktop.getDesktop().open(outputfile);
+				
+	}
+	
+	
     private boolean[][][] propagator;
 
     private List<Color[]> tiles;
@@ -45,7 +85,11 @@ public class SimpleTiledZentangleWFCModel extends WFCModel {
     private static Character attributeFromString(Node item, Character defaultValue) { return item == null ? defaultValue : item.getNodeValue().toCharArray()[0]; }
 
     public SimpleTiledZentangleWFCModel(String directory, String name, String subsetName, int width, int height, boolean periodic, boolean black) throws Exception
-    {    	
+    {
+    	
+    	System.out.println("directory: "+ directory + ", name: " + name + ", subsestName: " + subsetName + ", width: " + width + ", height: " + height+ ", periodic: " + periodic + ", black: " + black);
+    	
+    	
         FMX = width;
         FMY = height;
         this.periodic = periodic;
@@ -139,7 +183,7 @@ public class SimpleTiledZentangleWFCModel extends WFCModel {
             else if (sym == 'T')
             {
                 cardinality = 4;
-                a = v -> (v + 1) % 4;
+				a = v -> (v + 1) % 4;
                 b = v -> v % 2 == 0 ? v : 4 - v;
             }
             else if (sym == 'I')

@@ -74,6 +74,7 @@ public class SimpleTiledZentangle {
 					e.printStackTrace();
 					System.exit(1);
 				}
+				System.out.println("SUCCESS!");
 				return graphics;
 			} else {
 				System.out.println("CONTRADICTION");
