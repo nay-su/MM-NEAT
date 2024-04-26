@@ -51,12 +51,17 @@ public class SimpleTiledZentangleWFCModel extends WFCModel {
 		//line 765:
 		//SimpleTiledZentangleWFCModel.writeAdjacencyRules(directory, tilesToProcess.toArray(new String[tilesToProcess.size()]), tempTileSizeList[zentangleNumber]*tileSize);
 
+//		SimpleTiledZentangleWFCModel.writeAdjacencyRules(directory, tileNames, 1600*1600);
+		
 		SimpleTiledZentangleWFCModel.writeAdjacencyRules(directory, tileNames, 1600*1600);
 		// data.xml gets read in this next method
 		//directory, zentangleNumber, Parameters.parameters.integerParameter("zentanglePatternDim") / tempTileSizeList[zentangleNumber]
-		int patternDim = 16;
-		BufferedImage bufferedImage = SimpleTiledZentangle.simpleTiledZentangle(directory, 1, patternDim );	//something's happenigng in the first 2 lines that causes the tiles to cut off
-		GraphicsUtil.extractCenterOfDoubledRotatedImage(bufferedImage, RandomNumbers.randomGenerator.nextDouble() * 360);
+		int patternDim = 16;	//attempting to change patternDim from 16
+		BufferedImage bufferedImage = SimpleTiledZentangle.simpleTiledZentangle(directory, 1, patternDim );	//something's happening in the first 2 lines that causes the tiles to cut off
+		GraphicsUtil.extractCenterOfDoubledRotatedImage(bufferedImage, RandomNumbers.randomGenerator.nextDouble() * 360);	//rotates tiles
+		
+		
+		
 //		BufferedImage zentangle = GraphicsUtil.zentangleImages(bgImage1, patterns[0], patterns[1]);
 		
 		
@@ -113,7 +118,10 @@ public class SimpleTiledZentangleWFCModel extends WFCModel {
         Node firstChild = document.getFirstChild();
         NamedNodeMap firstChildNodeMap = firstChild.getAttributes();
 
-        tilesize = attributeFromString(firstChildNodeMap.getNamedItem("size"), 16);
+//        tilesize = attributeFromString(firstChildNodeMap.getNamedItem("size"), 16);
+        tilesize = 100;	//test change 16 to 100?
+        System.out.println("firstChildNodeMap.getNamedItem(\"size\") is: " + firstChildNodeMap.getNamedItem("size"));
+        System.out.println("tileSize is: " + attributeFromString(firstChildNodeMap.getNamedItem("size"), 16));
         boolean unique = attributeFromString(firstChildNodeMap.getNamedItem("unique"), false);
 
         List<String> subset = null;
